@@ -1,5 +1,6 @@
 {
     "name": "vscode-stylint",
+    "displayName": "Stylint",
     "description": "Enables Stylint on VS Code",
     "version": "0.0.1",
     "publisher": "HaaLeo",
@@ -35,7 +36,11 @@
         "linter"
     ],
     "activationEvents": [
-        "onLanguage:stylus"
+        "onLanguage:stylus",
+        "onCommand:stylint.executeAutofix",
+        "onCommand:stylint.enable",
+        "onCommand:stylint.disable",
+        "onCommand:stylint.showOutputChannel"
     ],
     "main": "./client/out/extension",
     "contributes": {
@@ -172,7 +177,7 @@
         "@types/node": "^10.7.0",
         "@types/stampit": "^3.0.2",
         "typescript": "^3.0.1",
-        "vsce":"^1.46.0"
+        "vsce": "^1.46.0"
     },
     "dependencies": {
         "stylint-json-reporter": "^0.3.1"
