@@ -14,7 +14,7 @@ import {
     LanguageClient, LanguageClientOptions, RequestType, TransportKind,
     TextDocumentIdentifier, NotificationType, ErrorHandler,
     ErrorAction, CloseAction, State as ClientState,
-    RevealOutputChannelOn, VersionedTextDocumentIdentifier, ExecuteCommandRequest, ExecuteCommandParams,
+    RevealOutputChannelOn,
     ServerOptions, DocumentFilter, DidCloseTextDocumentNotification, DidOpenTextDocumentNotification,
     WorkspaceFolder
 } from 'vscode-languageclient';

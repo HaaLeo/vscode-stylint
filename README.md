@@ -82,7 +82,7 @@ This extension contributes the following commands to the Command palette.
 
 ## Known Issues:
 Only warnings are supported so far. Rules that are configured as errors will crash the server.
-The following example of an `stylintrc.` would crash the server and is **not recommended**:  
+The following example of an `.stylintrc` would crash the server and is **not recommended**:  
 ```JSON
 {
     "brackets": {

@@ -20,14 +20,12 @@ before_install:
 
 install:
   - npm install
-  - npm run vscode:prepublish
 
 jobs:
   include:
     - stage: build
       script:
         - npm run compile
-        - npm run tslint
     - stage: deploy
       before_deploy:
         - vsce publish -p ${VSC_PUBLISH_TOKEN}
