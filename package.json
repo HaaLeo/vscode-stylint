@@ -19,11 +19,12 @@
         "name": "Leo Hanisch",
         "url": "https://github.com/HaaLeo"
     },
+    "icon": "stylint_icon.png",
     "galleryBanner": {
         "color": "#252627",
         "theme": "dark"
     },
-    "categories": [],
+    "categories": ["Linters", "Programming Languages"],
     "keywords": [
         "stylus",
         "stylint",
