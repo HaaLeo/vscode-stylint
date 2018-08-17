@@ -5,7 +5,7 @@ sudo: false
 stages:
   - build
   - name: deploy
-    if: tag =~ /^v\d+\.\d+\.\d+$/ AND repo = HaaLeo/vscode-timing
+    if: tag =~ /^v\d+\.\d+\.\d+$/ AND repo = HaaLeo/vscode-stylint
 
 
 node_js:

@@ -94,9 +94,9 @@ The following example of an `.stylintrc` would crash the server and is **not rec
 
 ## Contribution
 
-If you found a bug or are missing a feature do not hesitate to [file an issue](https://github.com/HaaLeo/vscode-timing/issues/new).  
+If you found a bug or are missing a feature do not hesitate to [file an issue](https://github.com/HaaLeo/vscode-stylint/issues/new).  
 Pull Requests are welcome!
 
 ## Support
-When you like this extension make sure to [star the repo](https://github.com/HaaLeo/vscode-timing/stargazers) and [write a review](https://marketplace.visualstudio.com/items?itemName=HaaLeo.Timing#review-details). I am always looking for new ideas and feedback.  
+When you like this extension make sure to [star the repo](https://github.com/HaaLeo/vscode-stylint/stargazers) and [write a review](https://marketplace.visualstudio.com/items?itemName=HaaLeo.vscode-stylint#review-details). I am always looking for new ideas and feedback.  
 In addition, it is possible to [donate via paypal](https://www.paypal.me/LeoHanisch).
