@@ -1,5 +1,6 @@
 {
     "name": "stylint-server",
+    "description": "The stylint language server",
     "version": "0.0.1",
     "author": {
         "name": "Leo Hanisch",

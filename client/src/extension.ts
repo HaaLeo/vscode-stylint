@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
- 'use strict';
+'use strict';
 
 import * as path from 'path';
 import {
@@ -61,7 +61,7 @@ interface TextDocumentSettings {
     validate: boolean;
     autoFix: boolean;
     autoFixOnSave: boolean;
-    options: any | undefined;
+    stylintrcPath: string | undefined;
     run: RunValues;
     nodePath: string | undefined;
     stylintWrapperPath: string;
@@ -142,7 +142,7 @@ function enable() {
         Window.showWarningMessage('Stylint can only be enabled if VS Code is opened on a workspace folder.');
         return;
     }
-    let disabledFolders = folders.filter(folder => !Workspace.getConfiguration('stylint',folder.uri).get('enable', true));
+    let disabledFolders = folders.filter(folder => !Workspace.getConfiguration('stylint', folder.uri).get('enable', true));
     if (disabledFolders.length === 0) {
         if (folders.length === 1) {
             Window.showInformationMessage('Stylint is already enabled in the workspace.');
@@ -165,7 +165,7 @@ function disable() {
         Window.showErrorMessage('Stylint can only be disabled if VS Code is opened on a workspace folder.');
         return;
     }
-    let enabledFolders = folders.filter(folder => Workspace.getConfiguration('stylint',folder.uri).get('enable', true));
+    let enabledFolders = folders.filter(folder => Workspace.getConfiguration('stylint', folder.uri).get('enable', true));
     if (enabledFolders.length === 0) {
         if (folders.length === 1) {
             Window.showInformationMessage('Stylint is already disabled in the workspace.');
@@ -233,13 +233,13 @@ export function activate(context: ExtensionContext) {
     openListener = Workspace.onDidOpenTextDocument(didOpenTextDocument);
     configurationListener = Workspace.onDidChangeConfiguration(configurationChanged);
 
-    let notValidating = () => Window.showInformationMessage('Stylint is not validating any files yet.');
+    let notValidating = () => Window.showInformationMessage('This command is not implemented yet.');
     dummyCommands = [
-        Commands.registerCommand('stylint.executeAutofix', notValidating),
         Commands.registerCommand('stylint.showOutputChannel', notValidating)
     ];
 
     context.subscriptions.push(
+        Commands.registerCommand('stylint.executeAutofix', notValidating),
         Commands.registerCommand('stylint.enable', enable),
         Commands.registerCommand('stylint.disable', disable)
     );
@@ -301,8 +301,8 @@ export function realActivate(context: ExtensionContext) {
     let defaultErrorHandler: ErrorHandler;
     let serverCalledProcessExit: boolean = false;
 
-    let packageJsonFilter: DocumentFilter = { scheme: 'file', pattern: '**/package.json'};
-    let configFileFilter: DocumentFilter = { scheme: 'file', pattern: '**/.stylintr{c.js,c.yaml,c.yml,c,c.json}'};
+    let packageJsonFilter: DocumentFilter = { scheme: 'file', pattern: '**/package.json' };
+    let configFileFilter: DocumentFilter = { scheme: 'file', pattern: '**/.stylintr{c.js,c.yaml,c.yml,c,c.json}' };
     let syncedDocuments: Map<string, TextDocument> = new Map<string, TextDocument>();
 
     Workspace.onDidChangeConfiguration(() => {
@@ -320,7 +320,7 @@ export function realActivate(context: ExtensionContext) {
         }
     });
     let clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file' }, { scheme: 'untitled'}],
+        documentSelector: [{ scheme: 'file' }, { scheme: 'untitled' }],
         diagnosticCollectionName: 'stylint',
         revealOutputChannelOn: RevealOutputChannelOn.Never,
         synchronize: {
@@ -419,7 +419,7 @@ export function realActivate(context: ExtensionContext) {
                             autoFixOnSave: false,
                             stylintWrapperPath: stylintWrapperPath,
                             stylintJsonReporterPath: stylintJsonReporterPath,
-                            options: config.get('options'),
+                            stylintrcPath: config.get('stylintrcPath'),
                             run: config.get('run', 'onType'),
                             nodePath: config.get('nodePath', undefined),
                             workingDirectory: undefined,
@@ -562,31 +562,18 @@ export function realActivate(context: ExtensionContext) {
             let state = context.globalState.get<NoStylintState>(key, {});
             let uri: Uri = Uri.parse(params.source.uri);
             let workspaceFolder = Workspace.getWorkspaceFolder(uri);
-            let packageManager = Workspace.getConfiguration('stylint', uri).get('packageManager', 'npm');
             if (workspaceFolder) {
-                if (packageManager === 'yarn') {
-                    client.info([
-                        '',
-                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
-                        '',
-                        `To use Stylint please install stylint by running \'yarn add stylint\' in the workspace folder ${workspaceFolder.name}`,
-                        'or globally using \'yarn global add stylint\'. You need to reopen the workspace after installing stylint.',
-                        '',
-                        `Alternatively you can disable Stylint for the workspace folder ${workspaceFolder.name} by executing the 'Disable Stylint' command.`
-                    ].join('\n'));
-                } else {
-                    client.info([
-                        '',
-                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
-                        '',
-                        `To use Stylint please install stylint by running \'npm install stylint\' in the workspace folder ${workspaceFolder.name}`,
-                        'or globally using \'npm install -g stylint\'. You need to reopen the workspace after installing stylint.',
-                        '',
-                        'If you are using yarn instead of npm set the setting `"stylint.packageManager": "yarn"`',
-                        '',
-                        `Alternatively you can disable Stylint for the workspace folder ${workspaceFolder.name} by executing the 'Disable Stylint' command.`
-                    ].join('\n'));
-                }
+
+                client.info([
+                    '',
+                    `Failed to load the Stylint library for the document ${uri.fsPath}`,
+                    '',
+                    `To use Stylint please install stylint by running \'npm install stylint\' in the workspace folder ${workspaceFolder.name}`,
+                    'or globally using \'npm install -g stylint\'. You need to reopen the workspace after installing stylint.',
+                    '',
+                    `Alternatively you can disable Stylint for the workspace folder ${workspaceFolder.name} by executing the 'Disable Stylint' command.`
+                ].join('\n'));
+
                 if (!state.workspaces) {
                     state.workspaces = Object.create(null);
                 }
@@ -596,20 +583,12 @@ export function realActivate(context: ExtensionContext) {
                     context.globalState.update(key, state);
                 }
             } else {
-                if (packageManager === 'yarn') {
-                    client.info([
-                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
-                        'To use Stylint for single JavaScript file install stylint globally using \'yarn global add stylint\'.',
-                        'You need to reopen VS Code after installing stylint.',
-                    ].join('\n'));
-                } else {
-                    client.info([
-                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
-                        'To use Stylint for single JavaScript file install stylint globally using \'npm install -g stylint\'.',
-                        'If you are using yarn instead of npm set the setting `"stylint.packageManager": "yarn"`',
-                                              'You need to reopen VS Code after installing stylint.',
-                    ].join('\n'));
-                }
+                client.info([
+                    `Failed to load the Stylint library for the document ${uri.fsPath}`,
+                    'To use Stylint for single JavaScript file install stylint globally using \'npm install -g stylint\'.',
+                    'You need to reopen VS Code after installing stylint.',
+                ].join('\n'));
+
                 if (!state.global) {
                     state.global = true;
                     client.outputChannel.show(true);
@@ -629,23 +608,23 @@ export function realActivate(context: ExtensionContext) {
 
     context.subscriptions.push(
         client.start(),
-        Commands.registerCommand('stylint.executeAutofix', () => {
-            let textEditor = Window.activeTextEditor;
-            if (!textEditor) {
-                return;
-            }
-            let textDocument: VersionedTextDocumentIdentifier = {
-                uri: textEditor.document.uri.toString(),
-                version: textEditor.document.version
-            };
-            let params: ExecuteCommandParams = {
-                command: 'stylint.applyAutoFix',
-                arguments: [textDocument]
-            }
-            client.sendRequest(ExecuteCommandRequest.type, params).then(undefined, () => {
-                Window.showErrorMessage('Failed to apply Stylint fixes to the document. Please consider opening an issue with steps to reproduce.');
-            });
-        }),
+        // Commands.registerCommand('stylint.executeAutofix', () => {
+        //     let textEditor = Window.activeTextEditor;
+        //     if (!textEditor) {
+        //         return;
+        //     }
+        //     let textDocument: VersionedTextDocumentIdentifier = {
+        //         uri: textEditor.document.uri.toString(),
+        //         version: textEditor.document.version
+        //     };
+        //     let params: ExecuteCommandParams = {
+        //         command: 'stylint.applyAutoFix',
+        //         arguments: [textDocument]
+        //     }
+        //     client.sendRequest(ExecuteCommandRequest.type, params).then(undefined, () => {
+        //         Window.showErrorMessage('Failed to apply Stylint fixes to the document. Please consider opening an issue with steps to reproduce.');
+        //     });
+        // }),
         Commands.registerCommand('stylint.showOutputChannel', () => { client.outputChannel.show(); }),
         statusBarItem
     );

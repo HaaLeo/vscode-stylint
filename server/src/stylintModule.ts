@@ -6,10 +6,12 @@
 'use strict';
 
 import { execSync } from 'child_process';
-import * as path from 'path';
+
+import { IConnection } from 'vscode-languageserver';
 
 class StylintModule {
     private _stylintWrapperPath: string
+    private _stylintrcPath: string
     private _jsonReporterPath: string
     private _stylintExecPath: string // Path to the index.js
 
@@ -20,6 +22,16 @@ class StylintModule {
     public set stylintExecPath(stylintExecPath: string) {
         this._stylintExecPath = stylintExecPath;
     }
+
+    public set stylintrcPath(stylintrcPath: string) {
+        this._stylintrcPath = stylintrcPath;
+    }
+
+
+    public get stylintrcPath(): string {
+        return this._stylintrcPath;
+    }
+
 
     public get stylintWrapperPath(): string {
         return this._stylintWrapperPath;
@@ -37,16 +49,18 @@ class StylintModule {
         this._jsonReporterPath = jsonReporterPath;
     }
 
-    public validate(pathToFiles: string, pathToConfig: string, nodePath?: string) {
+    public validate(pathToFiles: string, connection: IConnection) {
         let command: string;
-        const args = '"' + this.stylintWrapperPath + '" "' + this.stylintExecPath + '" "' + pathToFiles + '" "' + pathToConfig + '" "' + this.jsonReporterPath + '"';
-        if (nodePath) {
-            command = '"' + path.join(nodePath, 'node') + '"' + ' ' + args
-        } else {
-            command = 'node ' + args
+        const args = '"' + this.stylintWrapperPath + '" "' + this.stylintExecPath + '" "' + pathToFiles + '" "' + this.stylintrcPath + '" "' + this.jsonReporterPath + '"';
+
+        command = 'node ' + args
+
+        try {
+            const buffer = execSync(command);
+            return JSON.parse(buffer.toString());
+        } catch (err) {
+            connection.console.error('Linting failed! Ensure all rules of the ' + this.stylintrcPath + ' are configured as warnings!');
         }
-        const buffer = execSync(command);
-        return JSON.parse(buffer.toString());
     }
 }
 

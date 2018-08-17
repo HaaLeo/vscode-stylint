@@ -102,7 +102,7 @@ interface TextDocumentSettings {
     validate: boolean;
     autoFix: boolean;
     autoFixOnSave: boolean;
-    options: any | undefined;
+    stylintrcPath: string | undefined;
     stylintWrapperPath: string,
     stylintJsonReporterPath: string,
     run: RunValues;
@@ -356,6 +356,7 @@ function resolveSettings(document: TextDocument): Thenable<TextDocumentSettings>
             let library = path2Library.get(resolvedPath);
             if (!library) {
                 library = new StylintModule();
+                library.stylintrcPath = settings.stylintrcPath
                 library.stylintExecPath = resolvedPath
                 if (!fs.existsSync(library.stylintExecPath)) {
                     settings.validate = false;
@@ -708,7 +709,7 @@ function getMessage(err: any, document: TextDocument): string {
     return result;
 }
 
-function validate(document: TextDocument, settings: TextDocumentSettings, publishDiagnostics: boolean = true): void {
+function validate(document: TextDocument, settings: TextDocumentSettings, publishDiagnostics: boolean = true): void{
     let uri = document.uri;
     let file = getFilePath(document);
     let cwd = process.cwd();
@@ -731,8 +732,9 @@ function validate(document: TextDocument, settings: TextDocumentSettings, publis
         const cli = settings.library;
         cli.stylintWrapperPath = settings.stylintWrapperPath;
         cli.jsonReporterPath = settings.stylintJsonReporterPath;
+        cli.stylintrcPath = settings.stylintrcPath;
         codeActions.delete(uri);
-        let report: StylintDocumentReport[] = cli.validate(file, settings.options, settings.nodePath);
+        let report: StylintDocumentReport[] = cli.validate(file, connection);
         let diagnostics: Diagnostic[] = [];
         if (Array.isArray(report) && report.length == 1) {
             let docReport = report[0];
@@ -886,7 +888,7 @@ messageQueue.registerNotification(DidChangeWatchedFilesNotification.type, (param
             if (library) {
                 let cli = library
                 try {
-                    cli.validate('', '', '') //TODO correct
+                    cli.validate(path.join(dirname,'*.styl'), connection)
                     configErrorReported.delete(fsPath);
                 } catch (error) {
                 }

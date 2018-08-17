@@ -18,6 +18,11 @@ On new folders you might also need to create a `.stylintrc` configuration file. 
 
 This extension was heavily inspired by [Dirk Baeumer's ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
+## Requirements
+
+`node` needs to be reachable via your `$PATH` environment variable.  
+To check that run `node -v` in a shell. It should print something like `v8.9.4`.
+
 ## Installation
 
 ### Via Visual Studio Code
@@ -74,6 +79,18 @@ This extension contributes the following commands to the Command palette.
 - `Disable Stylint for this Workspace`: disables Stylint extension for this workspace.
 - `Enable Stylint for this Workspace`: enable Stylint extension for this workspace.
 - `stylint.showOutputChannel`: show the output channel of the Stylint extension.
+
+## Known Issues:
+Only warnings are supported so far. Rules that are configured as errors will crash the server.
+The following example of an `stylintrc.` would crash the server and is **not recommended**:  
+```JSON
+{
+    "brackets": {
+        "expect": "never",
+        "error": true
+    }
+}
+```
 
 ## Contribution
 

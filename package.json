@@ -24,7 +24,10 @@
         "color": "#252627",
         "theme": "dark"
     },
-    "categories": ["Linters", "Programming Languages"],
+    "categories": [
+        "Linters",
+        "Programming Languages"
+    ],
     "keywords": [
         "stylus",
         "stylint",
@@ -162,7 +165,7 @@
         "watch:client": "tsc -w -p ./client/tsconfig.json",
         "watch:server": "tsc -w -p ./server/tsconfig.json",
         "compile": "npm run compile:client && npm run compile:server",
-        "postinstall": "npm install --only=production && cd client && npm install --only=production && cd ../server && npm install --only=production && cd .."
+        "postinstall": "cd client && npm install --only=production && cd ../server && npm install --only=production && cd .."
     },
     "devDependencies": {
         "@types/mocha": "^5.2.5",
