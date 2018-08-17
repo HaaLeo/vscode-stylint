@@ -1,0 +1,24 @@
+{
+    "name": "stylint-server",
+    "version": "0.0.1",
+    "author": {
+        "name": "Leo Hanisch",
+        "url": "https://github.com/HaaLeo"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/HaaLeo/vscode-stylint.git"
+    },
+    "bugs": {
+        "url": "https://github.com/HaaLeo/vscode-stylint/issues"
+    },
+    "engines": {
+        "node": "*"
+    },
+    "dependencies": {
+        "vscode-uri": "^1.0.6",
+        "vscode-languageserver": "^5.0.0"
+    },
+    "scripts": {}
+}

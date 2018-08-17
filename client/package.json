@@ -1,0 +1,26 @@
+{
+    "name": "stylint-client",
+    "description": "Enable stylint in vscode",
+    "author": {
+        "name": "Leo Hanisch",
+        "url": "https://github.com/HaaLeo"
+    },
+    "license": "MIT",
+    "version": "0.0.1",
+    "publisher": "HaaLeo",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/HaaLeo/vscode-stylint.git"
+    },
+    "engines": {
+        "vscode": "^1.26.0"
+    },
+    "scripts": {
+        "update-vscode": "node ./node_modules/vscode/bin/install",
+        "postinstall": "node ./node_modules/vscode/bin/install"
+    },
+    "dependencies": {
+        "vscode": "^1.1.21",
+        "vscode-languageclient": "^5.0.0"
+    }
+}

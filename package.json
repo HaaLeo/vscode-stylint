@@ -1,0 +1,175 @@
+{
+    "name": "vscode-stylint",
+    "description": "Enables Stylint on VS Code",
+    "version": "0.0.1",
+    "publisher": "HaaLeo",
+    "preview": true,
+    "engines": {
+        "vscode": "^1.26.0"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/HaaLeo/vscode-stylint"
+    },
+    "bugs": {
+        "url": "https://github.com/HaaLeo/vscode-stylint/issues"
+    },
+    "author": {
+        "name": "Leo Hanisch",
+        "url": "https://github.com/HaaLeo"
+    },
+    "galleryBanner": {
+        "color": "#252627",
+        "theme": "dark"
+    },
+    "categories": [],
+    "keywords": [
+        "stylus",
+        "stylint",
+        "lint",
+        "linter"
+    ],
+    "activationEvents": [
+        "onLanguage:stylus"
+    ],
+    "main": "./client/out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "title": "Fix all auto-fixable Problems",
+                "category": "Stylint",
+                "command": "stylint.executeAutofix"
+            },
+            {
+                "title": "Enable Stylint",
+                "category": "Stylint",
+                "command": "stylint.enable"
+            },
+            {
+                "title": "Disable Stylint",
+                "category": "Stylint",
+                "command": "stylint.disable"
+            },
+            {
+                "title": "Show Output Channel",
+                "category": "Stylint",
+                "command": "stylint.showOutputChannel"
+            }
+        ],
+        "languages": [
+            {
+                "id": "stylus",
+                "aliases": [
+                    "Stylus",
+                    "stylus"
+                ],
+                "extensions": [
+                    ".styl"
+                ]
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Stylint",
+            "properties": {
+                "stylint.enable": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Controls whether stylint is enabled for JavaScript files or not."
+                },
+                "stylint.alwaysShowStatus": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Always show the Stylint status bar item.",
+                    "scope": "window"
+                },
+                "stylint.nodePath": {
+                    "scope": "resource",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "A path added to NODE_PATH when resolving the stylint module."
+                },
+                "stylint.stylintrcPath": {
+                    "scope": "resource",
+                    "type": "object | string",
+                    "default": ".stylintrc",
+                    "description": "The path to the .stylintrc file containing the options (see https://github.com/SimenB/stylint#options)."
+                },
+                "stylint.trace.server": {
+                    "scope": "window",
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "off",
+                    "description": "Traces the communication between VSCode and the stylint linter service."
+                },
+                "stylint.run": {
+                    "scope": "resource",
+                    "type": "string",
+                    "enum": [
+                        "onSave",
+                        "onType"
+                    ],
+                    "default": "onType",
+                    "description": "Run the linter on save (onSave) or on type (onType)"
+                },
+                "stylint.autoFixOnSave": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Turns auto fix on save on or off."
+                },
+                "stylint.workingDirectories": {
+                    "scope": "resource",
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "directory": {
+                                        "type": "string",
+                                        "description": "The working directory to use if a file's path start with this directory."
+                                    },
+                                    "changeProcessCWD": {
+                                        "type": "boolean",
+                                        "description": "Whether the process's cwd should be changed as well."
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
+        "compile:client": "tsc -p ./client/tsconfig.json",
+        "compile:server": "tsc -p ./server/tsconfig.json",
+        "watch:client": "tsc -w -p ./client/tsconfig.json",
+        "watch:server": "tsc -w -p ./server/tsconfig.json",
+        "compile": "npm run compile:client && npm run compile:server",
+        "postinstall": "npm install --only=production && cd client && npm install --only=production && cd ../server && npm install --only=production && cd .."
+    },
+    "devDependencies": {
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.7.0",
+        "@types/stampit": "^3.0.2",
+        "typescript": "^3.0.1"
+    },
+    "dependencies": {
+        "stylint-json-reporter": "^0.3.1"
+    }
+}
