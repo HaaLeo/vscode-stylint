@@ -6,6 +6,7 @@
 [![Donate](https://img.shields.io/badge/-Donate-blue.svg?logo=paypal&style=flat-square)](https://www.paypal.me/LeoHanisch)
 
 >**Note**: This extension is currently in _preview_ state. Therefore some features may do not work as expected yet.  
+If you find any bug please [open an issue](https://github.com/HaaLeo/vscode-stylint/issues).
 
 ## Description
 
