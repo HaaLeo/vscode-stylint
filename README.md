@@ -80,18 +80,6 @@ This extension contributes the following commands to the Command palette.
 - `Enable Stylint for this Workspace`: enable Stylint extension for this workspace.
 - `stylint.showOutputChannel`: show the output channel of the Stylint extension.
 
-## Known Issues:
-Only warnings are supported so far. Rules that are configured as errors will crash the server.
-The following example of an `.stylintrc` would crash the server and is **not recommended**:  
-```JSON
-{
-    "brackets": {
-        "expect": "never",
-        "error": true
-    }
-}
-```
-
 ## Contribution
 
 If you found a bug or are missing a feature do not hesitate to [file an issue](https://github.com/HaaLeo/vscode-stylint/issues/new).  

@@ -5,12 +5,10 @@
 
 'use strict';
 
-import { execSync } from 'child_process';
-
-import { IConnection } from 'vscode-languageserver';
+const exec = require('sb-exec');
+import fs = require('fs');
 
 class StylintModule {
-    private _stylintWrapperPath: string
     private _stylintrcPath: string
     private _jsonReporterPath: string
     private _stylintExecPath: string // Path to the index.js
@@ -32,15 +30,6 @@ class StylintModule {
         return this._stylintrcPath;
     }
 
-
-    public get stylintWrapperPath(): string {
-        return this._stylintWrapperPath;
-    }
-
-    public set stylintWrapperPath(stylintWrapperPath: string) {
-        this._stylintWrapperPath = stylintWrapperPath;
-    }
-
     public get jsonReporterPath(): string {
         return this._jsonReporterPath;
     }
@@ -49,18 +38,15 @@ class StylintModule {
         this._jsonReporterPath = jsonReporterPath;
     }
 
-    public validate(pathToFiles: string, connection: IConnection) {
-        let command: string;
-        const args = '"' + this.stylintWrapperPath + '" "' + this.stylintExecPath + '" "' + pathToFiles + '" "' + this.stylintrcPath + '" "' + this.jsonReporterPath + '"';
+    public async validate(pathToFiles: string): Promise<any> {
 
-        command = 'node ' + args
-
-        try {
-            const buffer = execSync(command);
-            return JSON.parse(buffer.toString());
-        } catch (err) {
-            connection.console.error('Linting failed! Ensure all rules of the ' + this.stylintrcPath + ' are configured as warnings!');
+        const parameter = [pathToFiles, '--reporter', this.jsonReporterPath];
+        if (fs.existsSync(this.stylintrcPath)) {
+            parameter.push('--config', this.stylintrcPath)
         }
+        const options = { ignoreExitCode: true };
+        const buffer = await exec.execNode(this.stylintExecPath, parameter, options);
+        return JSON.parse(buffer.toString());
     }
 }
 

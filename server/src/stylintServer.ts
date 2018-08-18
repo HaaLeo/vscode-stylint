@@ -357,7 +357,7 @@ function resolveSettings(document: TextDocument): Thenable<TextDocumentSettings>
             if (!library) {
                 library = new StylintModule();
                 library.stylintrcPath = settings.stylintrcPath
-                library.stylintExecPath = resolvedPath
+                library.stylintExecPath = path.join(path.dirname(resolvedPath),'bin','stylint');
                 if (!fs.existsSync(library.stylintExecPath)) {
                     settings.validate = false;
                     connection.console.error(`The stylint exec path="${library.stylintExecPath}" doesn\'t exist. You need at least stylint@1.5.9`);
@@ -672,20 +672,23 @@ function validateSingle(document: TextDocument, publishDiagnostics: boolean = tr
         if (!settings.validate) {
             return;
         }
-        try {
-            validate(document, settings, publishDiagnostics);
-            connection.sendNotification(StatusNotification.type, { state: Status.ok });
-        } catch (err) {
-            let status = undefined;
-            for (let handler of singleErrorHandlers) {
-                status = handler(err, document, settings.library);
-                if (status) {
-                    break;
+
+        validate(document, settings, publishDiagnostics)
+            .then(() => {
+                connection.sendNotification(StatusNotification.type, { state: Status.ok });
+
+            })
+            .catch((reason) => {
+                let status = undefined;
+                for (let handler of singleErrorHandlers) {
+                    status = handler(reason, document, settings.library);
+                    if (status) {
+                        break;
+                    }
                 }
-            }
-            status = status || Status.error;
-            connection.sendNotification(StatusNotification.type, { state: status });
-        }
+                status = status || Status.error;
+                connection.sendNotification(StatusNotification.type, { state: status });
+            });
     });
 }
 
@@ -709,7 +712,7 @@ function getMessage(err: any, document: TextDocument): string {
     return result;
 }
 
-function validate(document: TextDocument, settings: TextDocumentSettings, publishDiagnostics: boolean = true): void{
+async function validate(document: TextDocument, settings: TextDocumentSettings, publishDiagnostics: boolean = true): Promise<void> {
     let uri = document.uri;
     let file = getFilePath(document);
     let cwd = process.cwd();
@@ -730,11 +733,10 @@ function validate(document: TextDocument, settings: TextDocumentSettings, publis
         }
 
         const cli = settings.library;
-        cli.stylintWrapperPath = settings.stylintWrapperPath;
         cli.jsonReporterPath = settings.stylintJsonReporterPath;
         cli.stylintrcPath = settings.stylintrcPath;
         codeActions.delete(uri);
-        let report: StylintDocumentReport[] = cli.validate(file, connection);
+        let report: StylintDocumentReport[] = await cli.validate(file);
         let diagnostics: Diagnostic[] = [];
         if (Array.isArray(report) && report.length == 1) {
             let docReport = report[0];
@@ -888,7 +890,7 @@ messageQueue.registerNotification(DidChangeWatchedFilesNotification.type, (param
             if (library) {
                 let cli = library
                 try {
-                    cli.validate(path.join(dirname,'*.styl'), connection)
+                    cli.validate(path.join(dirname, '*.styl'))
                     configErrorReported.delete(fsPath);
                 } catch (error) {
                 }
