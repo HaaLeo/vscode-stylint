@@ -5,9 +5,6 @@
 [![David](https://img.shields.io/david/HaaLeo/vscode-stylint.svg?style=flat-square)](https://david-dm.org/HaaLeo/vscode-stylint) [![David](https://img.shields.io/david/dev/HaaLeo/vscode-stylint.svg?style=flat-square)](https://david-dm.org/HaaLeo/vscode-stylint?type=dev) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)  
 [![Donate](https://img.shields.io/badge/-Donate-blue.svg?logo=paypal&style=flat-square)](https://www.paypal.me/LeoHanisch)
 
->**Note**: This extension is currently in _preview_ state. Therefore some features may do not work as expected yet.  
-If you find any bug please [open an issue](https://github.com/HaaLeo/vscode-stylint/issues).
-
 ## Description
 
 Integrates [Stylint](https://simenb.github.io/stylint/) into VS Code. If you are new to Stylint check the [documentation](https://simenb.github.io/stylint/).
@@ -17,11 +14,6 @@ The extension uses the Stylint library installed in the opened workspace folder.
 On new folders you might also need to create a `.stylintrc` configuration file. The extension will search for an `.stylintrc` file on the workspace folder root.
 
 This extension was heavily inspired by [Dirk Baeumer's ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
-
-## Requirements
-
-`node` needs to be reachable via your `$PATH` environment variable.  
-To check that run `node -v` in a shell. It should print something like `v8.9.4`.
 
 ## Installation
 
@@ -42,12 +34,7 @@ This extension contributes the following variables to the [settings](https://cod
 - `stylint.enable`: enable/disable stylint. Is enabled by default.
 - `stylint.stylintrcPath`: The path to the `.stylintrc` file. When no `.stylintrc` file is found the [default options](https://github.com/SimenB/stylint#options) are used.
 - `stylint.run`: run the linter `onSave` or `onType`, default is `onType`.
-- `stylint.autoFixOnSave`: enables auto fix on save. Please note auto fix on save is only available if VS Code's `files.autoSave` is either `off`, `onFocusChange` or `onWindowChange`. It will not work with `afterDelay`.
 - `stylint.nodePath`: use this setting if an installed Stylint package can't be detected, for example `/myGlobalNodePackages/node_modules`.
-- `stylint.validate`: an array of language identifiers specify the files to be validated. Something like `"stylint.validate": [ "stylus"]`. If the setting is missing, it defaults to `["stylus"]`. You can also control which plugins should provide autofix support. To do so simply provide an object literal in the validate setting with the properties `language` and `autoFix` instead of a simple `string`. An example is:
-```json
-"stylint.validate": [ "stylus", { "language": "html", "autoFix": true } ]
-```
 - `stylint.alwaysShowStatus`: Always show the Stylint status bar item.
 - `stylint.trace.server`: Traces the communication between VSCode and the stylint linter service.
 - `stylint.workingDirectories` - an array for working directories to be used. Stylint resolves configuration files relative to a working directory. This new settings allows users to control which working directory is used for which files. Consider the following setups:
@@ -75,7 +62,6 @@ The setting also supports literals of the form `{ "directory": string, "changePr
 
 This extension contributes the following commands to the Command palette.
 
-- `Fix all auto-fixable problems`: applies Stylint auto-fix resolutions to all fixable problems.
 - `Disable Stylint for this Workspace`: disables Stylint extension for this workspace.
 - `Enable Stylint for this Workspace`: enable Stylint extension for this workspace.
 - `stylint.showOutputChannel`: show the output channel of the Stylint extension.

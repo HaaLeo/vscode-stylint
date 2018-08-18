@@ -4,7 +4,6 @@
     "description": "Enables Stylint on VS Code",
     "version": "0.0.1",
     "publisher": "HaaLeo",
-    "preview": true,
     "engines": {
         "vscode": "^1.26.0"
     },
@@ -37,7 +36,6 @@
     ],
     "activationEvents": [
         "onLanguage:stylus",
-        "onCommand:stylint.executeAutofix",
         "onCommand:stylint.enable",
         "onCommand:stylint.disable",
         "onCommand:stylint.showOutputChannel"
@@ -45,11 +43,6 @@
     "main": "./client/out/extension",
     "contributes": {
         "commands": [
-            {
-                "title": "Fix all auto-fixable Problems",
-                "category": "Stylint",
-                "command": "stylint.executeAutofix"
-            },
             {
                 "title": "Enable Stylint",
                 "category": "Stylint",
@@ -130,12 +123,6 @@
                     "default": "onType",
                     "description": "Run the linter on save (onSave) or on type (onType)"
                 },
-                "stylint.autoFixOnSave": {
-                    "scope": "resource",
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Turns auto fix on save on or off."
-                },
                 "stylint.workingDirectories": {
                     "scope": "resource",
                     "type": "array",
@@ -173,9 +160,7 @@
         "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
     },
     "devDependencies": {
-        "@types/mocha": "^5.2.5",
         "@types/node": "^10.7.0",
-        "@types/stampit": "^3.0.2",
         "typescript": "^3.0.1",
         "vsce": "^1.46.0"
     },

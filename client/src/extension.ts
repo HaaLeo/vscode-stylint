@@ -239,7 +239,7 @@ export function activate(context: ExtensionContext) {
     ];
 
     context.subscriptions.push(
-        Commands.registerCommand('stylint.executeAutofix', notValidating),
+        // Commands.registerCommand('stylint.executeAutofix', notValidating),
         Commands.registerCommand('stylint.enable', enable),
         Commands.registerCommand('stylint.disable', disable)
     );
@@ -436,7 +436,7 @@ export function realActivate(context: ExtensionContext) {
                             for (let item of validateItems) {
                                 if (Is.string(item) && item === document.languageId) {
                                     settings.validate = true;
-                                    if (item === 'javascript') {
+                                    if (item === 'javascript') { //TODO change to stylus
                                         settings.autoFix = true;
                                     }
                                     break;
