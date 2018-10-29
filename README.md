@@ -33,6 +33,7 @@ This extension contributes the following variables to the [settings](https://cod
 
 - `stylint.enable`: enable/disable stylint. Is enabled by default.
 - `stylint.stylintrcPath`: The path to the `.stylintrc` file. When no `.stylintrc` file is found the [default options](https://github.com/SimenB/stylint#options) are used.
+- `stylint.packageManager`: controls the package manager to be used to resolve the Stylint library. This has only an influence if the Stylint library is resolved globally. Valid values are "npm" or "yarn".
 - `stylint.run`: run the linter `onSave` or `onType`, default is `onType`.
 - `stylint.nodePath`: use this setting if an installed Stylint package can't be detected, for example `/myGlobalNodePackages/node_modules`.
 - `stylint.alwaysShowStatus`: Always show the Stylint status bar item.
