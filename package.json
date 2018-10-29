@@ -146,6 +146,16 @@
                             }
                         ]
                     }
+                },
+                "stylint.packageManager": {
+                    "scope": "resource",
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn"
+                    ],
+                    "default": "npm",
+                    "description": "The package manager you use to install node modules."
                 }
             }
         }
