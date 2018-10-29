@@ -58,6 +58,7 @@ namespace DirectoryItem {
 type RunValues = 'onType' | 'onSave';
 
 interface TextDocumentSettings {
+    packageManager: 'npm' | 'yarn';
     validate: boolean;
     autoFix: boolean;
     autoFixOnSave: boolean;
@@ -413,8 +414,11 @@ export function realActivate(context: ExtensionContext) {
                         }
                         let resource = client.protocol2CodeConverter.asUri(item.scopeUri);
                         let config = Workspace.getConfiguration('stylint', resource);
+                        let pm = config.get('packageManager', 'npm');
+
                         let settings: TextDocumentSettings = {
                             validate: false,
+                            packageManager: pm === 'yarn' ? 'yarn' : 'npm',
                             autoFix: false,
                             autoFixOnSave: false,
                             stylintWrapperPath: stylintWrapperPath,
@@ -562,18 +566,31 @@ export function realActivate(context: ExtensionContext) {
             let state = context.globalState.get<NoStylintState>(key, {});
             let uri: Uri = Uri.parse(params.source.uri);
             let workspaceFolder = Workspace.getWorkspaceFolder(uri);
+            let packageManager = Workspace.getConfiguration('eslint', uri).get('packageManager', 'npm');
             if (workspaceFolder) {
-
-                client.info([
-                    '',
-                    `Failed to load the Stylint library for the document ${uri.fsPath}`,
-                    '',
-                    `To use Stylint please install stylint by running \'npm install stylint\' in the workspace folder ${workspaceFolder.name}`,
-                    'or globally using \'npm install -g stylint\'. You need to reopen the workspace after installing stylint.',
-                    '',
-                    `Alternatively you can disable Stylint for the workspace folder ${workspaceFolder.name} by executing the 'Disable Stylint' command.`
-                ].join('\n'));
-
+                if (packageManager === 'yarn') {
+                    client.info([
+                        '',
+                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
+                        '',
+                        `To use Stylint please install stylint by running \'yarn add stylint\' in the workspace folder ${workspaceFolder.name}`,
+                        'or globally using \'yarn global add stylint\'. You need to reopen the workspace after installing stylint.',
+                        '',
+                        `Alternatively you can disable Stylint for the workspace folder ${workspaceFolder.name} by executing the 'Disable Stylint' command.`
+                    ].join('\n'));
+                } else {
+                    client.info([
+                        '',
+                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
+                        '',
+                        `To use Stylint please install stylint by running \'npm install stylint\' in the workspace folder ${workspaceFolder.name}`,
+                        'or globally using \'npm install -g stylint\'. You need to reopen the workspace after installing stylint.',
+                        '',
+                        'If you are using yarn instead of npm set the setting `"stylint.packageManager": "yarn"`',
+                        '',
+                        `Alternatively you can disable Stylint for the workspace folder ${workspaceFolder.name} by executing the 'Disable Stylint' command.`
+                    ].join('\n'));
+                }
                 if (!state.workspaces) {
                     state.workspaces = Object.create(null);
                 }
@@ -583,18 +600,27 @@ export function realActivate(context: ExtensionContext) {
                     context.globalState.update(key, state);
                 }
             } else {
-                client.info([
-                    `Failed to load the Stylint library for the document ${uri.fsPath}`,
-                    'To use Stylint for single JavaScript file install stylint globally using \'npm install -g stylint\'.',
-                    'You need to reopen VS Code after installing stylint.',
-                ].join('\n'));
-
+                if (packageManager === 'yarn') {
+                    client.info([
+                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
+                        'To use Stylint for single JavaScript file install stylint globally using \'yarn global add stylint\'.',
+                        'You need to reopen VS Code after installing stylint.',
+                    ].join('\n'));
+                } else {
+                    client.info([
+                        `Failed to load the Stylint library for the document ${uri.fsPath}`,
+                        'To use Stylint for single JavaScript file install stylint globally using \'npm install -g stylint\'.',
+                        'If you are using yarn instead of npm set the setting `"stylint.packageManager": "yarn"`',
+                        'You need to reopen VS Code after installing stylint.',
+                    ].join('\n'));
+                }
                 if (!state.global) {
                     state.global = true;
                     client.outputChannel.show(true);
                     context.globalState.update(key, state);
                 }
             }
+
             return {};
         });
     });
