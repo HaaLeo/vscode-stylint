@@ -2,7 +2,7 @@
     "name": "vscode-stylint",
     "displayName": "Stylint",
     "description": "Enables Stylint on VS Code",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "publisher": "HaaLeo",
     "engines": {
         "vscode": "^1.26.0"
