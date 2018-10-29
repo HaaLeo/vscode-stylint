@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------------------
  * Copyright (c) Leo Hanisch. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
+ * Licensed under the MIT License. See LICENSE.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
 
@@ -99,6 +99,7 @@ namespace DirectoryItem {
 }
 
 interface TextDocumentSettings {
+    packageManager: 'npm' | 'yarn';
     validate: boolean;
     autoFix: boolean;
     autoFixOnSave: boolean;
@@ -110,7 +111,7 @@ interface TextDocumentSettings {
     workspaceFolder: WorkspaceFolder | undefined;
     workingDirectory: DirectoryItem | undefined;
     library: StylintModule | undefined;
-    resolvedGlobalNpmPath: string | undefined;
+    resolvedGlobalPackageManagerPath: string | undefined;
 }
 
 interface StylintAutoFixEdit {
@@ -319,6 +320,20 @@ function globalNpmPath(): string {
     return _globalNpmPath;
 }
 
+let _globalYarnPath: string | undefined;
+function globalYarnPath(): string {
+    if (_globalYarnPath === void 0) {
+        _globalYarnPath = Files.resolveGlobalYarnPath(trace);
+        if (_globalYarnPath === void 0) {
+            _globalYarnPath = null;
+        }
+    }
+    if (_globalYarnPath === null) {
+        return undefined;
+    }
+    return _globalYarnPath;
+}
+
 let path2Library: Map<string, StylintModule> = new Map<string, StylintModule>();
 let document2Settings: Map<string, Thenable<TextDocumentSettings>> = new Map<string, Thenable<TextDocumentSettings>>();
 
@@ -329,7 +344,11 @@ function resolveSettings(document: TextDocument): Thenable<TextDocumentSettings>
         return resultPromise;
     }
     resultPromise = connection.workspace.getConfiguration({ scopeUri: uri, section: '' }).then((settings: TextDocumentSettings) => {
-        settings.resolvedGlobalNpmPath = globalNpmPath();
+        if (settings.packageManager === 'npm') {
+            settings.resolvedGlobalPackageManagerPath = globalNpmPath();
+        } else if (settings.packageManager === 'yarn') {
+            settings.resolvedGlobalPackageManagerPath = globalYarnPath();
+        }
         let uri = URI.parse(document.uri);
         let promise: Thenable<string>
         if (uri.scheme === 'file') {
@@ -344,20 +363,20 @@ function resolveSettings(document: TextDocument): Thenable<TextDocumentSettings>
                     }
                 }
                 promise = Files.resolve('stylint', nodePath, nodePath, trace).then<string, string>(undefined, () => {
-                    return Files.resolve('stylint', settings.resolvedGlobalNpmPath, directory, trace);
+                    return Files.resolve('stylint', settings.resolvedGlobalPackageManagerPath, directory, trace);
                 });
             } else {
-                promise = Files.resolve('stylint', settings.resolvedGlobalNpmPath, directory, trace);
+                promise = Files.resolve('stylint', settings.resolvedGlobalPackageManagerPath, directory, trace);
             }
         } else {
-            promise = Files.resolve('stylint', settings.resolvedGlobalNpmPath, settings.workspaceFolder ? settings.workspaceFolder.uri : undefined, trace);
+            promise = Files.resolve('stylint', settings.resolvedGlobalPackageManagerPath, settings.workspaceFolder ? settings.workspaceFolder.uri : undefined, trace);
         }
         return promise.then((resolvedPath) => {
             let library = path2Library.get(resolvedPath);
             if (!library) {
                 library = new StylintModule();
                 library.stylintrcPath = settings.stylintrcPath
-                library.stylintExecPath = path.join(path.dirname(resolvedPath),'bin','stylint');
+                library.stylintExecPath = path.join(path.dirname(resolvedPath), 'bin', 'stylint');
                 if (!fs.existsSync(library.stylintExecPath)) {
                     settings.validate = false;
                     connection.console.error(`The stylint exec path="${library.stylintExecPath}" doesn\'t exist. You need at least stylint@1.5.9`);
