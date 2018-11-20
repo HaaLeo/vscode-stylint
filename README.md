@@ -69,7 +69,7 @@ This extension contributes the following commands to the Command palette.
 
 ## Contribution
 
-If you found a bug or are missing a feature do not hesitate to [file an issue](https://github.com/HaaLeo/vscode-stylint/issues/new).  
+If you found a bug or are missing a feature do not hesitate to [file an issue](https://github.com/HaaLeo/vscode-stylint/issues/new/choose).  
 Pull Requests are welcome!
 
 ## Support
