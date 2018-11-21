@@ -43,11 +43,11 @@ This extension contributes the following variables to the [settings](https://cod
 client/
   .stylintignore
   .stylintrc
-  client.js
+  client.styl
 server/
   .stylintignore
   .stylintrc
-  server.js
+  server.styl
 ```
 Then using the setting:
 ```json
