@@ -42,11 +42,11 @@ This extension contributes the following variables to the [settings](https://cod
 ```
 client/
   .stylintignore
-  .stylintrc.json
+  .stylintrc
   client.js
 server/
   .stylintignore
-  .stylintrc.json
+  .stylintrc
   server.js
 ```
 Then using the setting:
