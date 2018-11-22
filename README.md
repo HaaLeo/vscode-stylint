@@ -39,25 +39,25 @@ This extension contributes the following variables to the [settings](https://cod
 - `stylint.alwaysShowStatus`: Always show the Stylint status bar item.
 - `stylint.trace.server`: Traces the communication between VSCode and the stylint linter service.
 - `stylint.workingDirectories` - an array for working directories to be used. Stylint resolves configuration files relative to a working directory. This new settings allows users to control which working directory is used for which files. Consider the following setups:
-```
-client/
-  .stylintignore
-  .stylintrc
-  client.styl
-server/
-  .stylintignore
-  .stylintrc
-  server.styl
-```
-Then using the setting:
-```json
-  "stylint.workingDirectories": [
-    "./client", "./server"
-  ]
-```
-will validate files inside the server directory with the server directory as the current working directory. Same for files in the client directory. If the setting is omitted the working directory is the workspace folder.
+  ```
+  client/
+    .stylintignore
+    .stylintrc
+    client.styl
+  server/
+    .stylintignore
+    .stylintrc
+    server.styl
+  ```
+  Then using the setting:
+  ```json
+    "stylint.workingDirectories": [
+      "./client", "./server"
+    ]
+  ```
+  will validate files inside the server directory with the server directory as the current working directory. Same for files   in the client directory. If the setting is omitted the working directory is the workspace folder.
 
-The setting also supports literals of the form `{ "directory": string, "changeProcessCWD": boolean }` as elements. Use this form if you want to instruct Stylint to change the current working directory of the Stylint validation process to the value of `directory` as well.
+  The setting also supports literals of the form `{ "directory": string, "changeProcessCWD": boolean }` as elements. Use this   form if you want to instruct Stylint to change the current working directory of the Stylint validation process to the value   of `directory` as well.
 
 ## Commands:
 

@@ -1,5 +1,5 @@
-# Change Log
-All notable changes to the "vscode-stylint" extension will be documented in this file.
+# Changelog
+All notable changes to the "vscode-stylint" extension will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## 2018-10-29 - v0.1.0
 * **Added** a setting `stylint.packageManager` that controls the package manager to be used to resolve the Stylint library ([#1](https://github.com/HaaLeo/vscode-stylint/issues/1)).
