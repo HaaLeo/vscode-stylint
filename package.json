@@ -98,7 +98,7 @@
                 },
                 "stylint.stylintrcPath": {
                     "scope": "resource",
-                    "type": "object | string",
+                    "type": "string",
                     "default": ".stylintrc",
                     "description": "The path to the .stylintrc file containing the options (see https://github.com/SimenB/stylint#options)."
                 },
