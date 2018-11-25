@@ -2,12 +2,12 @@
     "name": "vscode-stylint",
     "displayName": "Stylint",
     "description": "Enables Stylint on VS Code",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "publisher": "HaaLeo",
     "engines": {
         "vscode": "^1.26.0"
     },
-    "license": "MIT",
+    "license": "SEE LICENSE IN LICENSE.txt",
     "repository": {
         "type": "git",
         "url": "https://github.com/HaaLeo/vscode-stylint"
