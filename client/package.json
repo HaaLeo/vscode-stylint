@@ -20,10 +20,10 @@
         "postinstall": "node ./node_modules/vscode/bin/install"
     },
     "devDependencies": {
-        "vscode": "^1.1.21"
+        "vscode": "^1.1.29"
     },
     "dependencies": {
-        "vscode-languageclient": "^5.0.1",
-        "semver": "^5.5.1"
+        "vscode-languageclient": "~5.1.0",
+        "semver": "^5.6.0"
     }
 }
