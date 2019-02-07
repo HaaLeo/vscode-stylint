@@ -1,7 +1,7 @@
 {
     "name": "stylint-server",
     "description": "The stylint language server",
-    "version": "0.0.2",
+    "version": "0.1.2",
     "author": {
         "name": "Leo Hanisch",
         "url": "https://github.com/HaaLeo"

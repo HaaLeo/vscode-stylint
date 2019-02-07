@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to the "vscode-stylint" extension will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2019-02-07 - v0.1.2
 * **Updated** dependencies to fix security vulnerability in `node.extend`.
 
 ## 2018-11-25 - v0.1.1
