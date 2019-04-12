@@ -3,7 +3,7 @@
 [![Version](https://vsmarketplacebadge.apphb.com/version/HaaLeo.vscode-stylint.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=HaaLeo.vscode-stylint) [![Downloads](https://vsmarketplacebadge.apphb.com/downloads/HaaLeo.vscode-stylint.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=HaaLeo.vscode-stylint) [![Ratings](https://vsmarketplacebadge.apphb.com/rating/HaaLeo.vscode-stylint.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=HaaLeo.vscode-stylint#review-details) [![Stars](https://img.shields.io/github/stars/HaaLeo/vscode-stylint.svg?label=Stars&logo=github&style=flat-square)](https://github.com/HaaLeo/vscode-stylint/stargazers)  
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://raw.githubusercontent.com/HaaLeo/vscode-stylint/master/LICENSE.txt) [![Build Status](https://img.shields.io/travis/HaaLeo/vscode-stylint/master.svg?style=flat-square)](https://travis-ci.org/HaaLeo/vscode-stylint)  
 [![David](https://img.shields.io/david/HaaLeo/vscode-stylint.svg?style=flat-square)](https://david-dm.org/HaaLeo/vscode-stylint) [![David](https://img.shields.io/david/dev/HaaLeo/vscode-stylint.svg?style=flat-square)](https://david-dm.org/HaaLeo/vscode-stylint?type=dev) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)  
-[![Donate](https://img.shields.io/badge/-Donate-blue.svg?logo=paypal&style=flat-square)](https://www.paypal.me/LeoHanisch)
+[![Donate](https://img.shields.io/badge/☕️-Buy%20Me%20a%20Coffee-blue.svg?&style=flat-square)](https://www.paypal.me/LeoHanisch/3eur)
 
 ## Description
 
@@ -67,6 +67,12 @@ This extension contributes the following commands to the Command palette.
 - `Enable Stylint for this Workspace`: enable Stylint extension for this workspace.
 - `stylint.showOutputChannel`: show the output channel of the Stylint extension.
 
+## Known Issues
+
+When updating VS Code to a version that _ships with a new Node.js version_ (like [v1.31.0](https://code.visualstudio.com/updates/v1_31#_nodejs-update) did), a bug can occur that causes the extension host to crash. This happens, because the extension depends on native Node.js modules.  
+When you face this bug please refer to issue [#7](https://github.com/HaaLeo/vscode-stylint/issues/7) for further details and a possible fix.
+
+
 ## Contribution
 
 If you found a bug or are missing a feature do not hesitate to [file an issue](https://github.com/HaaLeo/vscode-stylint/issues/new/choose).  
@@ -74,4 +80,4 @@ Pull Requests are welcome!
 
 ## Support
 When you like this extension make sure to [star the repo](https://github.com/HaaLeo/vscode-stylint/stargazers) and [write a review](https://marketplace.visualstudio.com/items?itemName=HaaLeo.vscode-stylint#review-details). I am always looking for new ideas and feedback.  
-In addition, it is possible to [donate via paypal](https://www.paypal.me/LeoHanisch).
+In addition, it is possible to [donate via paypal](https://www.paypal.me/LeoHanisch/3eur).
