@@ -3,6 +3,7 @@ All notable changes to the "vscode-stylint" extension will be documented in this
 
 ## Unreleased
 * **Updated** dependencies to fix security vulnerability in `lodash`.
+* **Added** _Known Issues_ section to readme to refer to [#7](https://github.com/HaaLeo/vscode-stylint/issues/7).
 
 ## 2019-02-07 - v0.1.2
 * **Updated** dependencies to fix security vulnerability in `node.extend`.
