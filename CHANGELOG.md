@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to the "vscode-stylint" extension will be documented in this file. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2019-04-12 - v0.1.3
 * **Updated** dependencies to fix security vulnerability in `lodash`.
 * **Added** _Known Issues_ section to readme to refer to [#7](https://github.com/HaaLeo/vscode-stylint/issues/7).
 
