@@ -170,9 +170,9 @@
         "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
     },
     "devDependencies": {
-        "@types/node": "^10.12.24",
-        "typescript": "^3.3.3",
-        "vsce": "^1.57.0"
+        "@types/node": "^11.13.4",
+        "typescript": "^3.4.3",
+        "vsce": "^1.59.0"
     },
     "dependencies": {
         "stylint-json-reporter": "^0.3.1"
