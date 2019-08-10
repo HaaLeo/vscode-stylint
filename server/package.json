@@ -18,8 +18,8 @@
         "node": "*"
     },
     "dependencies": {
-        "vscode-uri": "^2.0.2",
-        "vscode-languageserver": "~5.1.0",
+        "vscode-uri": "^2.0.3",
+        "vscode-languageserver": "^5.2.1",
         "sb-exec": "^4.0.0"
     },
     "scripts": {}

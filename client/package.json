@@ -13,12 +13,12 @@
         "url": "https://github.com/HaaLeo/vscode-stylint.git"
     },
     "engines": {
-        "vscode": "^1.26.0"
+        "vscode": "^1.37.0"
     },
     "devDependencies": {
         "@types/vscode": "~1.37.0"
     },
     "dependencies": {
-        "vscode-languageclient": "~5.1.1"
+        "vscode-languageclient": "^5.2.1"
     }
 }
