@@ -18,7 +18,7 @@ import {
 
 import { StylintModule } from './stylintModule';
 import * as fs from 'fs';
-import URI from 'vscode-uri';
+import { URI } from 'vscode-uri';
 import * as path from 'path';
 
 namespace Is {
