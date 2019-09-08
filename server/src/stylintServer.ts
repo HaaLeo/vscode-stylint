@@ -104,7 +104,6 @@ interface TextDocumentSettings {
     autoFix: boolean;
     autoFixOnSave: boolean;
     stylintrcPath: string | undefined;
-    stylintWrapperPath: string,
     stylintJsonReporterPath: string,
     run: RunValues;
     nodePath: string | undefined;

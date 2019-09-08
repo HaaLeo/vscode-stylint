@@ -65,7 +65,6 @@ interface TextDocumentSettings {
     stylintrcPath: string | undefined;
     run: RunValues;
     nodePath: string | undefined;
-    stylintWrapperPath: string;
     stylintJsonReporterPath: string;
     workspaceFolder: WorkspaceFolder | undefined;
     workingDirectory: DirectoryItem | undefined;
@@ -249,7 +248,6 @@ export function activate(context: ExtensionContext) {
 
 export function realActivate(context: ExtensionContext) {
 
-    let stylintWrapperPath = context.asAbsolutePath('resources/stylintwrapper.js')
     let stylintJsonReporterPath = context.asAbsolutePath('node_modules/stylint-json-reporter/index.js')
     let statusBarItem = Window.createStatusBarItem(StatusBarAlignment.Right, 0);
     let stylintStatus: Status = Status.ok;
@@ -415,13 +413,11 @@ export function realActivate(context: ExtensionContext) {
                         let resource = client.protocol2CodeConverter.asUri(item.scopeUri);
                         let config = Workspace.getConfiguration('stylint', resource);
                         let pm = config.get('packageManager', 'npm');
-
                         let settings: TextDocumentSettings = {
                             validate: false,
                             packageManager: pm === 'yarn' ? 'yarn' : 'npm',
                             autoFix: false,
                             autoFixOnSave: false,
-                            stylintWrapperPath: stylintWrapperPath,
                             stylintJsonReporterPath: stylintJsonReporterPath,
                             stylintrcPath: config.get('stylintrcPath'),
                             run: config.get('run', 'onType'),
